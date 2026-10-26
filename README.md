@@ -80,9 +80,3 @@ flowchart LR
 
 ## Contributing
 New roles, tool-specific setups and war stories are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Support / sponsor
-The kit is free and MIT-licensed. If it saved you an incident, you can chip in what you like: {{SPONSOR_LINK}}
-
-## More from the author
-{{AUTHOR_LINKS}}
