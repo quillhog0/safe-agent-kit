@@ -49,6 +49,30 @@ grep -rnoE "\{\{[^}]+\}\}" roles templates | sort -u
 ```
 
 ## Quick start
+
+### Zapnout za 2 minuty
+1. Zkopíruj do rootu svého projektu:
+   ```bash
+   cp roles/00_TEAM_CHARTER.md ./TEAM_CHARTER.md
+   cp roles/01_IDE_CODER.md ./AGENTS.md
+   ```
+2. Otevři `TEAM_CHARTER.md` a vyplň 6 věcí: `PROJECT_NAME`, `OWNER_NAME`, `REPO_ROOT`, `MAIN_BRANCH`, `TEST_COMMAND`, `LINT_COMMAND`.
+3. Podle svého IDE zkopíruj hotovou šablonu (viz níže) a hotovo.
+
+Víc nepotřebuješ. Kit začne fungovat.
+
+### Podle IDE
+- **Antigravity**:  
+  `mkdir -p .agents/rules .agents/agents`  
+  `cp templates/antigravity/rules/* .agents/rules/`  
+  `cp templates/antigravity/agents/* .agents/agents/`  
+  Rules nastav na Always On.
+- **Cursor**: `cp templates/cursor/coder.mdc .cursor/rules/`
+- **Claude Code**: `cp templates/claude/* .claude/agents/` + v `CLAUDE.md` dej `@TEAM_CHARTER.md` a `@AGENTS.md`
+- **VS Code Copilot**: `cp templates/vscode/copilot-instructions.md .github/copilot-instructions.md`
+- **Codex**: `cp templates/codex/AGENTS.md ./AGENTS.md`
+
+### Úplný postup (když chceš všechno)
 Minimum required placeholders: `PROJECT_NAME`, `OWNER_NAME`, `REPO_ROOT`, `MAIN_BRANCH`, `TEST_COMMAND`, `LINT_COMMAND`. The rest are optional.
 
 1. Copy:
@@ -59,25 +83,7 @@ Minimum required placeholders: `PROJECT_NAME`, `OWNER_NAME`, `REPO_ROOT`, `MAIN_
    - `templates/*` → `docs/`
    - Optionally `roles/08_DEPLOY_HARDENING.md` and `enforcement/` scripts.
 2. Fill the minimum placeholders (or copy from `examples/minimal/` or `examples/realistic/`).
-3. Wire the files into your tool (or drop the ready templates):
-   - **Antigravity**: copy `templates/antigravity/rules/*` → `.agents/rules/` and `templates/antigravity/agents/*` → `.agents/agents/`
-   - **Cursor**: `templates/cursor/coder.mdc` → `.cursor/rules/`
-   - **Claude Code**: `templates/claude/*` → `.claude/agents/`
-   - **VS Code Copilot**: `templates/vscode/copilot-instructions.md` → `.github/copilot-instructions.md`
-   - **Codex**: `templates/codex/AGENTS.md` → root `AGENTS.md`
-
-**Cursor:** use `roles/01_IDE_CODER.md` as root `AGENTS.md`, or as `.cursor/rules/coder.mdc` with `alwaysApply: true`. Open other roles in separate chats ("Act per `roles/04_REVIEWER.md`").
-
-**Claude Code:** add a `CLAUDE.md` with
-```
-@TEAM_CHARTER.md
-@AGENTS.md
-```
-Then put the other roles in `.claude/agents/<role>.md`, adding the `name`/`description` frontmatter.
-
-**Codex:** Codex reads `AGENTS.md` at the root and in nested folders. Use the coder role at the root, starting with "Read TEAM_CHARTER.md first", and add folder files from `templates/FOLDER_AGENTS.md`.
-
-**Gemini CLI:** put the same content in `GEMINI.md`, or point Gemini CLI's context file setting at `AGENTS.md`.
+3. Wire the files into your tool (or use the templates above).
 
 4. Enforce what you can outside the prompt: copy scripts from `enforcement/`, a pre-commit secret scan, a CI grep for forbidden IDs, coverage gates, and branch protection. See `enforcement/README.md`.
 
