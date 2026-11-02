@@ -1,0 +1,5 @@
+{
+  "name": "safe-agent-kit",
+  "version": "1.0.0",
+  "description": "Drop-in AGENTS.md role templates that keep AI coding agents away from live systems, secrets and made-up claims."
+}

@@ -1,0 +1,18 @@
+---
+description: Safe Agent Kit - hard rules for AI coding agents
+globs: "**/*"
+alwaysApply: true
+---
+
+# Safe Agent Kit
+
+Read TEAM_CHARTER.md first.
+
+Hard rules:
+- DRY_RUN by default. Never flip to live.
+- Nothing irreversible without human approval.
+- Secrets: report path + type only.
+- Rule files are immutable for agents.
+- End every task with the standard report.
+
+Full kit: https://github.com/quillhog0/safe-agent-kit
