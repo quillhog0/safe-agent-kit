@@ -117,5 +117,8 @@ flowchart LR
 - The kit deliberately leaves out stack-specific style rules. Use it alongside your own.
 - Nothing here is financial, legal or tax advice.
 
-## Contributing
-New roles, tool-specific setups and war stories are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
+## Where to find it
+- GitHub: this repo
+- Suggested listings: [cursor.directory](https://cursor.directory), [awesome-cursorrules](https://github.com/PatrickJS/awesome-cursorrules), Claude skills directories (skills.sh, Claude Market), Antigravity customizations.
+
+Submit a PR or listing if you use it.
