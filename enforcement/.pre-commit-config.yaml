@@ -1,0 +1,15 @@
+# Example pre-commit config (copy to .pre-commit-config.yaml and install pre-commit)
+repos:
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+  - repo: local
+    hooks:
+      - id: forbidden-grep
+        name: forbidden patterns
+        entry: enforcement/forbidden_grep.sh
+        language: script
+        pass_filenames: false
+        always_run: true

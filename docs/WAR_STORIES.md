@@ -161,3 +161,16 @@ These are anonymized real incidents from multi-agent projects that the kit's rul
 - An operation isn't done until the external system confirms it. Unconfirmed cancels stay "pending".
 - IDs come from the external system or are guaranteed unique, and the reconciliation check catches reuse.
 - Cost and limit assumptions are re-validated on history and in sandbox before anyone proposes live, and results are always labelled as estimates.
+
+## Reverse map (story → rule / role)
+
+- 1–2: charter rules 1, 4 + Cartographer
+- 3–4: Librarian + code-is-truth
+- 5: Money Guard + Reviewer
+- 6: Escalation + failing-test rule
+- 7–8: Money Guard + test-first
+- 9: Deploy Hardening (persistence)
+- 10–12: Deploy Hardening + single config
+- 13: Deploy Hardening (HMAC) + Librarian
+- 14: Reviewer scope + Orchestrator
+

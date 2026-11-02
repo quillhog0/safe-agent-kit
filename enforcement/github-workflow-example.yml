@@ -1,0 +1,21 @@
+name: kit-checks
+on:
+  pull_request:
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Forbidden patterns
+        run: |
+          chmod +x enforcement/forbidden_grep.sh
+          # fill your pattern
+          FORBIDDEN_PATTERNS_GREP='real-account-id|live-host.example' ./enforcement/forbidden_grep.sh || exit 1
+      - name: Rule files protection
+        run: |
+          if git diff --name-only origin/${{ github.base_ref }} | grep -E '^(roles/|TEAM_CHARTER|ESCALATION_ADR|AGENTS\.md|docs/INCIDENTS)' ; then
+            if ! git log --format=%B -1 | grep -q 'human-approved'; then
+              echo "Rule files changed without human-approved in commit message"
+              exit 1
+            fi
+          fi

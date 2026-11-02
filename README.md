@@ -7,7 +7,7 @@
 ## Why
 AI agents are fast. Near production, payments or trading infrastructure, fast is also how things break. An agent restarts the live service instead of the copy, trusts a stale comment over the code, "fixes" a red test by skipping it, or ends up reading a `.env`. Most of these failures come from the process, and a model upgrade won't fix them.
 
-This kit is a set of plain-Markdown rules, built and battle-tested on real multi-agent projects over many months:
+This kit is a set of plain-Markdown rules, derived from real multi-agent incidents:
 - **DRY_RUN by default.** No agent switches anything to live.
 - **Nothing irreversible without a human yes:** push, publish, merge, money and deletion.
 - **Secrets are untouchable.** If an agent finds one, it reports the path and type only.
@@ -32,16 +32,27 @@ These rules tell agents what to do. [QA-Ecosystem](https://github.com/quillhog0/
 | [`roles/05_MONEY_GUARD.md`](roles/05_MONEY_GUARD.md) | Rules for payments, billing, wallets, trading, spend | Anything with money |
 | [`roles/06_ESCALATION_ADR.md`](roles/06_ESCALATION_ADR.md) | When an agent decides itself and when it asks the human, plus the ADR template | Always |
 | [`roles/07_CLEANUP_CARTOGRAPHER.md`](roles/07_CLEANUP_CARTOGRAPHER.md) | Inventory/tidy a legacy repo, zero behaviour change | Inherited mess |
+| [`roles/08_DEPLOY_HARDENING.md`](roles/08_DEPLOY_HARDENING.md) | Optional deploy / persistence / config checklist (from war stories) | Before production deploys |
 | [`templates/`](templates/) | `INCIDENTS.md`, `OPEN_QUESTIONS.md`, folder `AGENTS.md` | Drop into `docs/` |
+| [`enforcement/`](enforcement/) | Small scripts: halt check, forbidden grep, AST gate, example CI | Optional mechanical enforcement |
+| [`examples/minimal/`](examples/minimal/) | Fully filled example files | Copy-paste starting point |
 
-Project specifics are `{{PLACEHOLDERS}}`. List them with:
+Project specifics are `{{PLACEHOLDERS}}`. Syntax: `{{KEY|default}}` uses the default if you leave it empty. List them with:
 ```bash
 grep -rnoE "\{\{[^}]+\}\}" roles templates | sort -u
 ```
 
 ## Quick start
-1. Copy `roles/00_TEAM_CHARTER.md` to your repo root as `TEAM_CHARTER.md` and `roles/06_ESCALATION_ADR.md` as `ESCALATION_ADR.md`. Then copy `templates/*` into `docs/`.
-2. Fill in the placeholders.
+Minimum required placeholders: `PROJECT_NAME`, `OWNER_NAME`, `REPO_ROOT`, `MAIN_BRANCH`, `TEST_COMMAND`, `LINT_COMMAND`. The rest are optional.
+
+1. Copy:
+   - `roles/00_TEAM_CHARTER.md` → root `TEAM_CHARTER.md`
+   - `roles/06_ESCALATION_ADR.md` → root `ESCALATION_ADR.md`
+   - `roles/01_IDE_CODER.md` → root `AGENTS.md` (or your tool's rules file)
+   - `roles/02_LIBRARIAN.md` → root or `docs/` (if you use the Librarian)
+   - `templates/*` → `docs/`
+   - Optionally `roles/08_DEPLOY_HARDENING.md` and `enforcement/` scripts.
+2. Fill the minimum placeholders (or copy from `examples/minimal/`).
 3. Wire the files into your tool:
 
 **Cursor:** use `roles/01_IDE_CODER.md` as root `AGENTS.md`, or as `.cursor/rules/coder.mdc` with `alwaysApply: true`. Open other roles in separate chats ("Act per `roles/04_REVIEWER.md`").
@@ -57,7 +68,7 @@ Then put the other roles in `.claude/agents/<role>.md`, adding the `name`/`descr
 
 **Gemini CLI:** put the same content in `GEMINI.md`, or point Gemini CLI's context file setting at `AGENTS.md`.
 
-4. Enforce what you can outside the prompt: a pre-commit secret scan, a CI grep for forbidden IDs and references to the original/live system, coverage gates, and branch protection.
+4. Enforce what you can outside the prompt: copy scripts from `enforcement/`, a pre-commit secret scan, a CI grep for forbidden IDs, coverage gates, and branch protection. See `enforcement/README.md`.
 
 ## How the roles work together
 ```mermaid
