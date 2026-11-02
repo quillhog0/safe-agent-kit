@@ -50,25 +50,25 @@ grep -rnoE "\{\{[^}]+\}\}" roles templates | sort -u
 
 ## Quick start
 
-### Zapnout za 2 minuty
-1. Zkopíruj do rootu svého projektu:
+### Turn it on in 2 minutes
+1. Copy into the root of your project:
    ```bash
    cp roles/00_TEAM_CHARTER.md ./TEAM_CHARTER.md
    cp roles/01_IDE_CODER.md ./AGENTS.md
    ```
-2. Otevři `TEAM_CHARTER.md` a vyplň 6 věcí: `PROJECT_NAME`, `OWNER_NAME`, `REPO_ROOT`, `MAIN_BRANCH`, `TEST_COMMAND`, `LINT_COMMAND`.
-3. Podle svého IDE zkopíruj hotovou šablonu (viz níže) a hotovo.
+2. Open `TEAM_CHARTER.md` and fill the 6 required values: `PROJECT_NAME`, `OWNER_NAME`, `REPO_ROOT`, `MAIN_BRANCH`, `TEST_COMMAND`, `LINT_COMMAND`.
+3. Copy the ready template for your IDE (see below). Done.
 
-Víc nepotřebuješ. Kit začne fungovat.
+That's all you need. The kit starts working.
 
-### Podle IDE
+### Per IDE
 - **Antigravity**:  
   `mkdir -p .agents/rules .agents/agents`  
   `cp templates/antigravity/rules/* .agents/rules/`  
   `cp templates/antigravity/agents/* .agents/agents/`  
-  Rules nastav na Always On.
+  Set the rules to Always On.
 - **Cursor**: `cp templates/cursor/coder.mdc .cursor/rules/`
-- **Claude Code**: `cp templates/claude/* .claude/agents/` + v `CLAUDE.md` dej `@TEAM_CHARTER.md` a `@AGENTS.md`
+- **Claude Code**: `cp templates/claude/* .claude/agents/` + add `@TEAM_CHARTER.md` and `@AGENTS.md` in `CLAUDE.md`
 - **VS Code Copilot**: `cp templates/vscode/copilot-instructions.md .github/copilot-instructions.md`
 - **Codex**: `cp templates/codex/AGENTS.md ./AGENTS.md`
 
