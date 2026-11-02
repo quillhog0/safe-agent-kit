@@ -8,7 +8,12 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - External-truth exception in charter §6.
 - Optional Deploy Hardening role (08).
 - enforcement/ scripts (halt_check, forbidden_grep, ast_gate, example CI).
-- examples/minimal/ filled starter.
+- examples/realistic/ with sample report, ADR, incident.
+- templates/cursor/ and templates/claude/ ready-to-drop files.
+- enforcement/validate_report.py
+- Role isolation section in README.
+- .github/workflows/kit-consistency.yml
+
 - Reverse map in WAR_STORIES.
 
 ### Changed

@@ -36,6 +36,9 @@ These rules tell agents what to do. [QA-Ecosystem](https://github.com/quillhog0/
 | [`templates/`](templates/) | `INCIDENTS.md`, `OPEN_QUESTIONS.md`, folder `AGENTS.md` | Drop into `docs/` |
 | [`enforcement/`](enforcement/) | Small scripts: halt check, forbidden grep, AST gate, example CI | Optional mechanical enforcement |
 | [`examples/minimal/`](examples/minimal/) | Fully filled example files | Copy-paste starting point |
+| [`examples/realistic/`](examples/realistic/) | Realistic example with sample report, ADR, incident | See full flow |
+| [`templates/cursor/`](templates/cursor/) | Ready `.mdc` for Cursor | Drop into `.cursor/rules/` |
+| [`templates/claude/`](templates/claude/) | Ready agent files for Claude Code | Drop into `.claude/agents/` |
 
 Project specifics are `{{PLACEHOLDERS}}`. Syntax: `{{KEY|default}}` uses the default if you leave it empty. List them with:
 ```bash
@@ -52,8 +55,10 @@ Minimum required placeholders: `PROJECT_NAME`, `OWNER_NAME`, `REPO_ROOT`, `MAIN_
    - `roles/02_LIBRARIAN.md` → root or `docs/` (if you use the Librarian)
    - `templates/*` → `docs/`
    - Optionally `roles/08_DEPLOY_HARDENING.md` and `enforcement/` scripts.
-2. Fill the minimum placeholders (or copy from `examples/minimal/`).
-3. Wire the files into your tool:
+2. Fill the minimum placeholders (or copy from `examples/minimal/` or `examples/realistic/`).
+3. Wire the files into your tool (or drop the ready templates):
+   - Cursor: `templates/cursor/coder.mdc` → `.cursor/rules/`
+   - Claude Code: `templates/claude/*` → `.claude/agents/`
 
 **Cursor:** use `roles/01_IDE_CODER.md` as root `AGENTS.md`, or as `.cursor/rules/coder.mdc` with `alwaysApply: true`. Open other roles in separate chats ("Act per `roles/04_REVIEWER.md`").
 
@@ -69,6 +74,14 @@ Then put the other roles in `.claude/agents/<role>.md`, adding the `name`/`descr
 **Gemini CLI:** put the same content in `GEMINI.md`, or point Gemini CLI's context file setting at `AGENTS.md`.
 
 4. Enforce what you can outside the prompt: copy scripts from `enforcement/`, a pre-commit secret scan, a CI grep for forbidden IDs, coverage gates, and branch protection. See `enforcement/README.md`.
+
+## Role isolation
+Roles are text. To stop one agent from playing multiple roles:
+- Use separate chats / agent instances / workspaces.
+- Cursor: different `.mdc` files, open Reviewer in a new chat.
+- Claude Code: separate files under `.claude/agents/`.
+- Never let the same session both write code and approve it.
+
 
 ## How the roles work together
 ```mermaid

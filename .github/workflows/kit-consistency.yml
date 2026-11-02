@@ -1,0 +1,20 @@
+name: kit-consistency
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholders documented
+        run: |
+          # simple check that README mentions the placeholder syntax
+          grep -q '{{KEY|default}}' README.md
+      - name: Reverse map present
+        run: grep -q 'Reverse map' docs/WAR_STORIES.md
+      - name: Enforcement scripts executable
+        run: test -x enforcement/halt_check.sh && test -x enforcement/validate_report.py
+      - name: Example report validates
+        run: python3 enforcement/validate_report.py examples/realistic/sample_report.md

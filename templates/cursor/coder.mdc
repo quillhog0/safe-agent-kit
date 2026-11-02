@@ -1,0 +1,13 @@
+---
+description: IDE Coder role — always apply
+alwaysApply: true
+---
+
+# AGENTS.md — IDE Coder
+
+Read TEAM_CHARTER.md first, then this file.
+
+You implement exactly the task. No more, no less.
+Work only inside the repo root.
+Use the standard report format at the end of every task.
+Never edit TEAM_CHARTER.md, roles/, or AGENTS.md files.
