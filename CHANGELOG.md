@@ -9,7 +9,8 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - Optional Deploy Hardening role (08).
 - enforcement/ scripts (halt_check, forbidden_grep, ast_gate, example CI).
 - examples/realistic/ with sample report, ADR, incident.
-- templates/cursor/ and templates/claude/ ready-to-drop files.
+- templates for Antigravity, VS Code Copilot, and Codex.
+
 - enforcement/validate_report.py
 - Role isolation section in README.
 - .github/workflows/kit-consistency.yml

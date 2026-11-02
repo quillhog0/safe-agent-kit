@@ -39,6 +39,9 @@ These rules tell agents what to do. Optional stronger enforcement: [QA-Ecosystem
 | [`examples/realistic/`](examples/realistic/) | Realistic example with sample report, ADR, incident | See full flow |
 | [`templates/cursor/`](templates/cursor/) | Ready `.mdc` for Cursor | Drop into `.cursor/rules/` |
 | [`templates/claude/`](templates/claude/) | Ready agent files for Claude Code | Drop into `.claude/agents/` |
+| [`templates/antigravity/`](templates/antigravity/) | Rules + agents for Antigravity | Drop `.agents/` contents |
+| [`templates/vscode/`](templates/vscode/) | Copilot instructions | Drop as `.github/copilot-instructions.md` |
+| [`templates/codex/`](templates/codex/) | AGENTS.md for Codex | Drop as root `AGENTS.md` |
 
 Project specifics are `{{PLACEHOLDERS}}`. Syntax: `{{KEY|default}}` uses the default if you leave it empty. List them with:
 ```bash
@@ -57,8 +60,11 @@ Minimum required placeholders: `PROJECT_NAME`, `OWNER_NAME`, `REPO_ROOT`, `MAIN_
    - Optionally `roles/08_DEPLOY_HARDENING.md` and `enforcement/` scripts.
 2. Fill the minimum placeholders (or copy from `examples/minimal/` or `examples/realistic/`).
 3. Wire the files into your tool (or drop the ready templates):
-   - Cursor: `templates/cursor/coder.mdc` → `.cursor/rules/`
-   - Claude Code: `templates/claude/*` → `.claude/agents/`
+   - **Antigravity**: copy `templates/antigravity/rules/*` → `.agents/rules/` and `templates/antigravity/agents/*` → `.agents/agents/`
+   - **Cursor**: `templates/cursor/coder.mdc` → `.cursor/rules/`
+   - **Claude Code**: `templates/claude/*` → `.claude/agents/`
+   - **VS Code Copilot**: `templates/vscode/copilot-instructions.md` → `.github/copilot-instructions.md`
+   - **Codex**: `templates/codex/AGENTS.md` → root `AGENTS.md`
 
 **Cursor:** use `roles/01_IDE_CODER.md` as root `AGENTS.md`, or as `.cursor/rules/coder.mdc` with `alwaysApply: true`. Open other roles in separate chats ("Act per `roles/04_REVIEWER.md`").
 
