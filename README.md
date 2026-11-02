@@ -19,7 +19,7 @@ This kit is a set of plain-Markdown rules, derived from real multi-agent inciden
 See [`docs/WAR_STORIES.md`](docs/WAR_STORIES.md) for the incidents these rules came from.
 
 ## Enforcement
-These rules tell agents what to do. [QA-Ecosystem](https://github.com/quillhog0/QA-Ecosystem) checks what they actually did: it runs the tests in an isolated sandbox, maps claims to tests and returns a report or a veto.
+These rules tell agents what to do. Optional stronger enforcement: [QA-Ecosystem](https://github.com/quillhog0/QA-Ecosystem) runs the tests in an isolated sandbox, maps claims to tests and can return a veto if docs, code and tests disagree. The kit itself works without it.
 
 ## What's inside
 | File | Role | Use when |
