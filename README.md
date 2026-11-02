@@ -72,7 +72,7 @@ That's all you need. The kit starts working.
 - **VS Code Copilot**: `cp templates/vscode/copilot-instructions.md .github/copilot-instructions.md`
 - **Codex**: `cp templates/codex/AGENTS.md ./AGENTS.md`
 
-### Úplný postup (když chceš všechno)
+### Full procedure (if you want everything)
 Minimum required placeholders: `PROJECT_NAME`, `OWNER_NAME`, `REPO_ROOT`, `MAIN_BRANCH`, `TEST_COMMAND`, `LINT_COMMAND`. The rest are optional.
 
 1. Copy:
