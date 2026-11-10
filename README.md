@@ -21,6 +21,12 @@ See [`docs/WAR_STORIES.md`](docs/WAR_STORIES.md) for the incidents these rules c
 ## Enforcement
 These rules tell agents what to do. Optional stronger enforcement: [QA-Ecosystem](https://github.com/quillhog0/QA-Ecosystem) runs the tests in an isolated sandbox, maps claims to tests and can return a veto if docs, code and tests disagree. The kit itself works without it.
 
+The scripts in [`enforcement/`](enforcement/) are small helpers you can copy into your own CI. They do less than a full audit:
+- `halt_check.sh` fails if the HALT file exists.
+- `forbidden_grep.sh` fails if a configured pattern appears, and **fails closed** if no pattern is configured.
+- `ast_gate.py` compares two **Python** files' syntax trees after stripping docstrings. It does not check other languages.
+- `validate_report.py` checks that a task report has the required fields and allowed values. It does not check whether the claims in the report are true.
+
 ## What's inside
 | File | Role | Use when |
 | :--- | :--- | :--- |
@@ -33,15 +39,17 @@ These rules tell agents what to do. Optional stronger enforcement: [QA-Ecosystem
 | [`roles/06_ESCALATION_ADR.md`](roles/06_ESCALATION_ADR.md) | When an agent decides itself and when it asks the human, plus the ADR template | Always |
 | [`roles/07_CLEANUP_CARTOGRAPHER.md`](roles/07_CLEANUP_CARTOGRAPHER.md) | Inventory/tidy a legacy repo, zero behaviour change | Inherited mess |
 | [`roles/08_DEPLOY_HARDENING.md`](roles/08_DEPLOY_HARDENING.md) | Optional deploy / persistence / config checklist (from war stories) | Before production deploys |
-| [`templates/`](templates/) | `INCIDENTS.md`, `OPEN_QUESTIONS.md`, folder `AGENTS.md` | Drop into `docs/` |
-| [`enforcement/`](enforcement/) | Small scripts: halt check, forbidden grep, AST gate, example CI | Optional mechanical enforcement |
-| [`examples/minimal/`](examples/minimal/) | Fully filled example files | Copy-paste starting point |
-| [`examples/realistic/`](examples/realistic/) | Realistic example with sample report, ADR, incident | See full flow |
-| [`templates/cursor/`](templates/cursor/) | Ready `.mdc` for Cursor | Drop into `.cursor/rules/` |
-| [`templates/claude/`](templates/claude/) | Ready agent files for Claude Code | Drop into `.claude/agents/` |
-| [`templates/antigravity/`](templates/antigravity/) | Rules + agents for Antigravity | Drop `.agents/` contents |
-| [`templates/vscode/`](templates/vscode/) | Copilot instructions | Drop as `.github/copilot-instructions.md` |
-| [`templates/codex/`](templates/codex/) | AGENTS.md for Codex | Drop as root `AGENTS.md` |
+| [`templates/`](templates/) | `INCIDENTS.md`, `OPEN_QUESTIONS.md`, folder `AGENTS.md`, and IDE templates that already contain the full hard rules | Drop into `docs/` or your tool's rules folder |
+| [`enforcement/`](enforcement/) | Small scripts: halt check, forbidden grep, Python AST gate, report validator, example CI | Optional mechanical enforcement |
+| [`examples/minimal/`](examples/minimal/) | Fully filled charter, escalation rules, and coder role | Copy-paste starting point |
+| [`examples/realistic/`](examples/realistic/) | The same filled starting files, plus a sample ADR, incident, and an illustrative task report | See the full file set |
+| [`templates/cursor/`](templates/cursor/) | Ready `.mdc` for Cursor, including the full hard rules | Drop into `.cursor/rules/` |
+| [`templates/claude/`](templates/claude/) | Ready agent files for Claude Code, including the full hard rules | Drop into `.claude/agents/` |
+| [`templates/antigravity/`](templates/antigravity/) | Rules + agents for Antigravity, including the full hard rules | Drop `.agents/` contents |
+| [`templates/vscode/`](templates/vscode/) | Copilot instructions, including the full hard rules | Drop as `.github/copilot-instructions.md` |
+| [`templates/codex/`](templates/codex/) | AGENTS.md for Codex, including the full hard rules | Drop as root `AGENTS.md` |
+
+The IDE templates and the filled examples are generated from the charter and ADR by [`scripts/generate_templates.py`](scripts/generate_templates.py). Edit those source files, not the generated copies.
 
 Project specifics are `{{PLACEHOLDERS}}`. Syntax: `{{KEY|default}}` uses the default if you leave it empty. List them with:
 ```bash
@@ -57,9 +65,9 @@ grep -rnoE "\{\{[^}]+\}\}" roles templates | sort -u
    cp roles/01_IDE_CODER.md ./AGENTS.md
    ```
 2. Open `TEAM_CHARTER.md` and fill the 6 required values: `PROJECT_NAME`, `OWNER_NAME`, `REPO_ROOT`, `MAIN_BRANCH`, `TEST_COMMAND`, `LINT_COMMAND`.
-3. Copy the ready template for your IDE (see below). Done.
+3. Copy the ready template for your IDE (see below). The template already contains the full hard rules; the filled charter supplies the project-specific names and paths. Done.
 
-That's all you need. The kit starts working.
+That's all you need. The kit starts working as instructions in the project. It does not, by itself, block an agent that ignores them.
 
 ### Per IDE
 - **Antigravity**:  
@@ -80,7 +88,7 @@ Minimum required placeholders: `PROJECT_NAME`, `OWNER_NAME`, `REPO_ROOT`, `MAIN_
    - `roles/06_ESCALATION_ADR.md` → root `ESCALATION_ADR.md`
    - `roles/01_IDE_CODER.md` → root `AGENTS.md` (or your tool's rules file)
    - `roles/02_LIBRARIAN.md` → root or `docs/` (if you use the Librarian)
-   - `templates/*` → `docs/`
+   - `templates/INCIDENTS.md`, `templates/OPEN_QUESTIONS.md`, `templates/FOLDER_AGENTS.md` → `docs/`
    - Optionally `roles/08_DEPLOY_HARDENING.md` and `enforcement/` scripts.
 2. Fill the minimum placeholders (or copy from `examples/minimal/` or `examples/realistic/`).
 3. Wire the files into your tool (or use the templates above).
@@ -116,6 +124,14 @@ flowchart LR
 - Keep real credentials out of agent reach and keep the human approval step real.
 - The kit deliberately leaves out stack-specific style rules. Use it alongside your own.
 - Nothing here is financial, legal or tax advice.
+
+## Checks
+From the repo root, with pytest installed (`pip install -r tests/requirements.txt`):
+
+```bash
+python3 scripts/generate_templates.py --check
+python3 -m pytest -q
+```
 
 ## Where to find it
 - GitHub: this repo
