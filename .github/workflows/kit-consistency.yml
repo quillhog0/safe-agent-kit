@@ -8,13 +8,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install test dependencies
+        run: pip install -r tests/requirements.txt
+      - name: Generated templates and examples stay in sync
+        run: python3 scripts/generate_templates.py --check
+      - name: Enforcement and generator tests
+        run: python3 -m pytest -q
       - name: Placeholders documented
-        run: |
-          # simple check that README mentions the placeholder syntax
-          grep -q '{{KEY|default}}' README.md
+        run: grep -q '{{KEY|default}}' README.md
       - name: Reverse map present
         run: grep -q 'Reverse map' docs/WAR_STORIES.md
-      - name: Enforcement scripts executable
-        run: test -x enforcement/halt_check.sh && test -x enforcement/validate_report.py
       - name: Example report validates
         run: python3 enforcement/validate_report.py examples/realistic/sample_report.md
+      - name: Halt check on a clean tree
+        run: bash enforcement/halt_check.sh /tmp/safe-agent-kit-no-such-halt
+      - name: Scripts are executable
+        run: |
+          test -x enforcement/halt_check.sh
+          test -x enforcement/forbidden_grep.sh
+          test -x enforcement/ast_gate.py
+          test -x enforcement/validate_report.py
+          test -x scripts/generate_templates.py

@@ -9,8 +9,9 @@ jobs:
       - name: Forbidden patterns
         run: |
           chmod +x enforcement/forbidden_grep.sh
-          # fill your pattern
-          FORBIDDEN_PATTERNS_GREP='real-account-id|live-host.example' ./enforcement/forbidden_grep.sh || exit 1
+          # Replace the pattern with your real forbidden identifiers.
+          # An empty pattern fails closed; do not delete this assignment.
+          FORBIDDEN_PATTERNS_GREP='real-account-id|live-host.example' ./enforcement/forbidden_grep.sh
       - name: Rule files protection
         run: |
           if git diff --name-only origin/${{ github.base_ref }} | grep -E '^(roles/|TEAM_CHARTER|ESCALATION_ADR|AGENTS\.md|docs/INCIDENTS)' ; then
